@@ -1,4 +1,3 @@
-//this is for the winner
 var START_RADIUS = 500;
 var INCREMENT = 1;
 var CHANGE_COLORS_AT = 10;
@@ -12,20 +11,28 @@ var EMPTY = 0;
 var curTurn = YELLOW;
 var gameOver = false;
 var board;
+var homescreen = true;
 
 
 function start(){
-    circle = = new Circle(START_RADIUS);
-    board = new Grid(NUM_ROWS, NUM_COLS);
-    initBoard();
-    setPieceDimension();
-    drawBoard();
-    var mySong = new Audio("https://www.youtube.com/watch?v=VBlFHuCzPgY");
-    // mySong.loop = true;
-    mySong.play();
-    mouseClickMethod(addPiece);
+    setBackground();
+    startButton();
+    mouseClickMethod(startGame)
 }
-
+function startGame() {
+    if(homescreen) {
+        homescreen = false;
+        circle == new Circle(START_RADIUS);
+        board = new Grid(NUM_ROWS, NUM_COLS);
+        initBoard();
+        setPieceDimension();
+        drawBoard();
+        var mySong = new Audio("https://www.youtube.com/watch?v=VBlFHuCzPgY");
+        mySong.loop = true;
+        mySong.play();
+        mouseClickMethod(addPiece);
+    }
+}
 
 function dividMath(){
    var divisor = Randomizer.nextInt(2,10);
@@ -36,7 +43,6 @@ function dividMath(){
     while(response != answer) {
         response = parseInt(prompt("Try again: what is " + dividend  + "/" +  divisor));
     }
-  
 }
 function multiMath(){
     var multiplicand = Randomizer.nextInt(2,5);
@@ -48,7 +54,6 @@ function multiMath(){
         response = parseInt(prompt("Try again: what is " + multiplier  + "*" +  multiplicand));
         multiMath();
     }
-    
 }    
 
 function goMath(){
@@ -82,22 +87,41 @@ function addPiece(e){
             gameOver=true;
         }else{
             incrementTurn();
-            dividMath();
+            multiMath();
         }
     }
 }
-
-
-
-
-
-
-
+    // make start button
+    function startButton(){
+       startButton = new Rectangle(150, 50);
+    startButton.setPosition((getWidth() / 2) - (startButton.getWidth() / 2), 255);
+    startButton.setColor("#4859A8");
+    var startButtonBorder = new Rectangle(160, 60);
+    startButtonBorder.setPosition((getWidth() / 2) - (startButtonBorder.getWidth() / 2), 250);
+    startButtonBorder.setColor(Color.black);
+    add(startButtonBorder);
+     add(startButton);
+     var txt = new Text("Start", "30pt Arial");
+    txt.setPosition(155, 290);
+    txt.setColor(Color.black);
+    add(txt);
+    }
+    function setBackground(){
+    // makes a game background variable and adds it to the screen
+    // this has got to be done before anything else is added
+    setBackground = new
+    WebImage("https://live.staticflickr.com/8684/16323734913_4bde0414df_b.jpg");
+    setBackground.setSize(getWidth(), getHeight());
+    setBackground.setPosition(0, 0);
+    add(setBackground);
+}
 // Displays a message declaring the current player as
 //winner 
+var circle;
 function displayWinner(){
-    var x = getWidth() / 5;
-    var y = getHeight() / 5;
+    var x = getWidth() / 1;
+    var y = getHeight() / 1;
+    circle = new Circle(1000);
     circle.setPosition(x, y);
     add(circle);
     setTimer(grow, 1);
@@ -124,8 +148,6 @@ function grow(){
 }
     if(size == getHeight()/2){
     stopTimer(grow);
-    
-   
 }
 }
     
@@ -261,7 +283,7 @@ function checkNegDiagForWin(row, col){
         cur_row--;
         cur_col++;
     }
-    if (up + down > 3){
+    if (up + down > 4){
         println("negDiag");
         return true;
     }
